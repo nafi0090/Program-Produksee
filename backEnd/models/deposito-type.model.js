@@ -23,12 +23,13 @@ const DEPOSITO_TYPE = {
             // validating data
             if (!name || !yearly_return || yearly_return < 0) {
                 throw new Error("Invalid input data");
+            } else {
+                const query = "INSERT INTO deposito_type (name, yearly_return) VALUES ($1, $2) RETURNING *";
+
+                const result = await db.query(query, [name, yearly_return]);
+                return result.rows
             }
 
-            const query = "INSERT INTO deposito_type (name, yearly_return) VALUES ($1, $2) RETURNING *";
-
-            const result = await db.query(query, [name, yearly_return]);
-            return result.rows
 
         } catch (err) {
             console.error(err.message);
@@ -59,18 +60,19 @@ const DEPOSITO_TYPE = {
             // validating data
             if (!name || !yearly_return || yearly_return < 0) {
                 throw new Error("Invalid input data");
+            } else {
+                // checking id
+                const id_search = await DEPOSITO_TYPE.findbyId(id);
+                if (!id_search) {
+                    throw new Error("ID Deposit Type not found");
+                } else {
+                    const query = "UPDATE deposito_type SET name = $1, yearly_return = $2 WHERE id = $3 RETURNING *"
+
+                    const result = await db.query(query, [name, yearly_return, id]);
+                    return result.rows
+                }
             }
 
-            // checking id
-            const id_search = await DEPOSITO_TYPE.findbyId(id);
-            if (!id_search) {
-                throw new Error("ID Deposit Type not found");
-            }
-
-            const query = "UPDATE deposito_type SET name = $1, yearly_return = $2 WHERE id = $3 RETURNING *"
-
-            const result = await db.query(query, [name, yearly_return, id]);
-            return result.rows
         } catch (err) {
             console.error(err.message);
             throw new Error("Error: Error Updating deposito type");
@@ -82,12 +84,13 @@ const DEPOSITO_TYPE = {
             const id_search = await DEPOSITO_TYPE.findbyId(id);
             if (!id_search) {
                 throw new Error("ID Deposit Type not found");
+            } else {
+                const query = "DELETE FROM deposito_type WHERE id = $1 RETURNING *";
+
+                const result = await db.query(query, [id]);
+                return result.rows
             }
 
-            const query = "DELETE FROM deposito_type WHERE id = $1 RETURNING *";
-
-            const result = await db.query(query, [id]);
-            return result.rows
         } catch (err) {
             console.error(err.message);
             throw new Error("Error: Error Deleting deposit type");

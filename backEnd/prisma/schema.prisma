@@ -25,6 +25,7 @@ model account {
   id_customer Int
   packet Int
   balance Float
+  startdate DateTime
 
   customer customer @relation(fields: [id_customer], references: [id])
   deposito_type deposito_type @relation(fields: [packet], references: [id])
@@ -32,7 +33,7 @@ model account {
 
 model deposito_type{
   id Int @id @default(autoincrement())
-  name String 
+  name String @unique
   yearly_return Float
 
   account account[]

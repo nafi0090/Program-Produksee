@@ -23,12 +23,13 @@ const CUSTOMERS = {
             // validating data
             if (!name) {
                 throw new Error("Invalid input data");
+            } else {
+                const query = "INSERT INTO customer (name) VALUES ($1) RETURNING *";
+
+                const result = await DB.query(query, [name]);
+                return result.rows;
             }
 
-            const query = "INSERT INTO customer (name) VALUES ($1) RETURNING *";
-
-            const result = await DB.query(query, [name]);
-            return result.rows;
         } catch (err) {
             console.error(err.message);
             throw new Error("Error: Error Creating Account");
@@ -57,18 +58,19 @@ const CUSTOMERS = {
             // validating data
             if (!name) {
                 throw new Error("Invalid input data");
+            } else {
+                // checking id
+                const id_search = await CUSTOMERS.findbyId(id);
+                if (!id_search) {
+                    throw new Error("ID Customer not found");
+                } else {
+                    const query = "UPDATE customer SET name = $1 WHERE id = $2 RETURNING *";
+
+                    const result = await DB.query(query, [name, id]);
+                    return result.rows
+                }
             }
 
-            // checking id
-            const id_search = await CUSTOMERS.findbyId(id);
-            if (!id_search) {
-                throw new Error("ID Customer not found");
-            }
-
-            const query = "UPDATE customer SET name = $1 WHERE id = $2 RETURNING *";
-
-            const result = await DB.query(query, [name, id]);
-            return result
         } catch (err) {
             console.error(err.message);
             throw new Error("Error: Error updating customer");
@@ -81,12 +83,13 @@ const CUSTOMERS = {
             const id_search = await CUSTOMERS.findbyId(id);
             if (!id_search) {
                 throw new Error("ID Customer not found");
+            } else {
+                const query = "DELETE FROM customer WHERE id = $1 RETURNING *";
+
+                const result = await DB.query(query, [id]);
+                return result
             }
 
-            const query = "DELETE FROM customer WHERE id = $1 RETURNING *";
-
-            const result = await DB.query(query, [id]);
-            return result
         } catch (err) {
             console.error(err.message);
             throw new Error("Error: Error deleting customer");
