@@ -1,80 +1,438 @@
 FORMAT: 1A
 HOST: https://polls.apiblueprint.org/
 
-# Nafi' Hasballah Noor
+# Bank Saving System API
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+This API allows you to manage customers, deposit types, and accounts in a bank saving system.
 
-## Questions Collection [/questions]
+## Group Customers
 
-### List All Questions [GET]
+### Customer Collection [/api/customers]
+
+#### Retrieve All Customers [GET]
 
 + Response 200 (application/json)
+    + Body
+        ```json
+        {
+          "message": "GET customer API",
+          "data": [
+            { "id": 1, "name": "John Doe" },
+            { "id": 2, "name": "Jane Smith" }
+          ]
+        }
+        ```
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
++ Response 500 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Error: Error Get data customer"
+        }
+        ```
 
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+#### Create a New Customer [POST]
 
 + Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
-
     + Body
+        ```json
+        {
+          "name": "John Doe"
+        }
+        ```
 
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
++ Response 200 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Customer Created Successfully",
+          "data": { "id": 1, "name": "John Doe" }
+        }
+        ```
+
++ Response 400 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Invalid input data"
+        }
+        ```
+
+### Customer Item [/api/customers/{id}]
+
++ Parameters
+    + id: `1` (number, required) - ID of the customer.
+
+#### Update an Existing Customer [PUT]
+
++ Request (application/json)
+    + Body
+        ```json
+        {
+          "name": "Jane Smith"
+        }
+        ```
+
++ Response 200 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Customer Updated Successfully",
+          "data": { "id": 1, "name": "Jane Smith" }
+        }
+        ```
+
++ Response 400 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Invalid input data"
+        }
+        ```
+
++ Response 404 (application/json)
+    + Body
+        ```json
+        {
+          "message": "ID Customer not found"
+        }
+        ```
+
+#### Delete an Existing Customer [DELETE]
+
++ Response 200 (application/json)
+    + Body
+        ```json
+        {
+          "message": "DELETE customer API",
+          "data": { "id": 1 }
+        }
+        ```
+
++ Response 404 (application/json)
+    + Body
+        ```json
+        {
+          "message": "ID Customer not found"
+        }
+        ```
+
+## Group Deposit Types
+
+### Deposit Type Collection [/api/deposit_types]
+
+#### Retrieve All Deposit Types [GET]
+
++ Response 200 (application/json)
+    + Body
+        ```json
+        {
+          "message": "GET Deposit Type API",
+          "data": [
+            { "id": 1, "name": "Deposito Bronze", "yearly_return": 3 },
+            { "id": 2, "name": "Deposito Silver", "yearly_return": 5 }
+          ]
+        }
+        ```
+
++ Response 500 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Error: Error Get Data Deposite"
+        }
+        ```
+
+#### Create a New Deposit Type [POST]
+
++ Request (application/json)
+    + Body
+        ```json
+        {
+          "name": "Deposito Gold",
+          "yearly_return": 7
+        }
+        ```
+
++ Response 200 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Deposit Type Created Successfully",
+          "data": { "id": 3, "name": "Deposito Gold", "yearly_return": 7 }
+        }
+        ```
+
++ Response 400 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Invalid input data"
+        }
+        ```
+
+### Deposit Type Item [/api/deposit_types/{id}]
+
++ Parameters
+    + id: `1` (number, required) - ID of the deposit type.
+
+#### Update an Existing Deposit Type [PUT]
+
++ Request (application/json)
+    + Body
+        ```json
+        {
+          "name": "Deposito Platinum",
+          "yearly_return": 8
+        }
+        ```
+
++ Response 200 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Deposit Type Update Successfully",
+          "data": { "id": 1, "name": "Deposito Platinum", "yearly_return": 8 }
+        }
+        ```
+
++ Response 400 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Invalid input data"
+        }
+        ```
+
++ Response 404 (application/json)
+    + Body
+        ```json
+        {
+          "message": "ID Deposit Type not found"
+        }
+        ```
+
+#### Delete an Existing Deposit Type [DELETE]
+
++ Response 200 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Deposit Type deleted Successfully",
+          "data": { "id": 1 }
+        }
+        ```
+
++ Response 404 (application/json)
+    + Body
+        ```json
+        {
+          "message": "ID Deposit Type not found"
+        }
+        ```
+
+## Group Accounts
+
+### Account Collection [/api/accounts]
+
+#### Retrieve All Accounts [GET]
+
++ Response 200 (application/json)
+    + Body
+        ```json
+        {
+          "message": "GET account API",
+          "data": [
+            { "id": 1, "id_customer": 1, "packet": "Basic", "balance": 1000.0, "startdate": "2024-01-01" },
+            { "id": 2, "id_customer": 2, "packet": "Premium", "balance": 2000.0, "startdate": "2024-02-01" }
+          ]
+        }
+        ```
+
++ Response 500 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Error: Error Get Data Account"
+        }
+        ```
+
+#### Create a New Account [POST]
+
++ Request (application/json)
+    + Body
+        ```json
+        {
+          "id_customer": 1,
+          "packet": "Basic",
+          "balance": 1500.0,
+          "startdate": "2024-01-01"
+        }
+        ```
+
++ Response 200 (application/json)
+    + Body
+        ```json
+        {
+          "message": "POST account API",
+          "data": { "id": 1, "id_customer": 1, "packet": "Basic", "balance": 1500.0, "startdate": "2024-01-01" }
+        }
+        ```
+
++ Response 400 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Invalid input data"
+        }
+        ```
+
+### Account Item [/api/accounts/{id}]
+
++ Parameters
+    + id: `1` (number, required) - ID of the account.
+
+#### Update an Existing Account [PUT]
+
++ Request (application/json)
+    + Body
+        ```json
+        {
+          "id_customer": 1,
+          "packet": "Premium",
+          "balance": 2500.0,
+          "startdate": "2024-02-01"
+        }
+        ```
+
++ Response 200 (application/json)
+    + Body
+        ```json
+        {
+          "message": "PUT account API",
+          "data": { "id": 1, "id_customer": 1, "packet": "Premium", "balance": 2500.0, "startdate": "2024-02-01" }
+        }
+        ```
+
++ Response 400 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Invalid input data"
+        }
+        ```
+
++ Response 404 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Account not found"
+        }
+        ```
+
+#### Delete an Existing Account [DELETE]
+
++ Response 200 (application/json)
+    + Body
+        ```json
+        {
+          "message": "DELETE account API",
+          "data": { "id": 1 }
+        }
+        ```
+
++ Response 404 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Account not found"
+        }
+        ```
+
+### Account Deposit [/api/accounts/{id}/deposit]
+
++ Parameters
+    + id: `1` (number, required) - ID of the account.
+
+#### Deposit to an Account [PUT]
+
++ Request (application/json)
+    + Body
+        ```json
+        {
+          "balance": 500.0,
+          "depositdate": "2024-03-01"
+        }
+        ```
+
++ Response 200 (application/json)
+    + Body
+        ```json
+        {
+          "message": "PUT account API - DEPOSIT",
+          "data": { "id": 1, "balance": 2000.0, "startdate": "2024-03-01" }
+        }
+        ```
+
++ Response 400 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Invalid deposit data"
+        }
+        ```
+
++ Response 404 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Account not found"
+        }
+        ```
+
+### Account Withdraw [/api/accounts/{id}/withdraw]
+
++ Parameters
+    + id: `1` (number, required) - ID of the account.
+
+#### Withdraw from an Account [PUT]
+
++ Request (application/json)
+    + Body
+        ```json
+        {
+          "balance": 300.0,
+          "withdrawdate": "2024-04-01"
+        }
+        ```
+
++ Response 200 (application/json)
+    + Body
+        ```json
+        {
+          "message": "PUT account API - WITHDRAW",
+          "data": {
+            "yearly_return": 5,
+            "monthly_return": 0.0041667,
+            "month": 2,
+            "query": { "id": 1, "balance": 1700.0, "startdate": "2024-01-01" },
+            "ending_balance": 150.0
+          }
+        }
+        ```
+
++ Response 400 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Invalid withdrawal amount"
+        }
+        ```
+
++ Response 404 (application/json)
+    + Body
+        ```json
+        {
+          "message": "Account not found"
+        }
+        ```
