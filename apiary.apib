@@ -1,5 +1,5 @@
-FORMAT: 1A
-HOST: https://polls.apiblueprint.org/
+FORMAT: 1A 
+HOST: https://backendbank-system-production.up.railway.app/
 
 # Bank Saving System API
 
@@ -7,7 +7,7 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
 
 ## Group Customers
 
-### Customer Collection [/api/customers]
+### Customer Collection [/v1/api/customers]
 
 #### Retrieve All Customers [GET]
 
@@ -30,7 +30,7 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
           "message": "Error: Error Get data customer"
         }
         ```
-
+### Customer Collection [/v1/api/customers/create]
 #### Create a New Customer [POST]
 
 + Request (application/json)
@@ -58,7 +58,7 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
         }
         ```
 
-### Customer Item [/api/customers/{id}]
+### Customer Item [/v1/api/customers/{id}/update]
 
 + Parameters
     + id: `1` (number, required) - ID of the customer.
@@ -97,9 +97,12 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
           "message": "ID Customer not found"
         }
         ```
-
+### Customer Item [/v1/api/customers/{id}/delete]
 #### Delete an Existing Customer [DELETE]
 
++ Parameters
+    + id: `1` (number, required) - ID of the customer.
+    
 + Response 200 (application/json)
     + Body
         ```json
@@ -119,7 +122,7 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
 
 ## Group Deposit Types
 
-### Deposit Type Collection [/api/deposit_types]
+### Deposit Type Collection [/v1/api/deposito]
 
 #### Retrieve All Deposit Types [GET]
 
@@ -143,6 +146,7 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
         }
         ```
 
+### Deposit Type Collection [/v1/api/deposito/create]
 #### Create a New Deposit Type [POST]
 
 + Request (application/json)
@@ -171,7 +175,7 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
         }
         ```
 
-### Deposit Type Item [/api/deposit_types/{id}]
+### Deposit Type Item [/v1/api/deposito/{id}/update]
 
 + Parameters
     + id: `1` (number, required) - ID of the deposit type.
@@ -211,6 +215,9 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
           "message": "ID Deposit Type not found"
         }
         ```
+### Deposit Type Item [/v1/api/deposito/{id}/delete]
++ Parameters
+    + id: `1` (number, required) - ID of the deposit type.
 
 #### Delete an Existing Deposit Type [DELETE]
 
@@ -233,7 +240,7 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
 
 ## Group Accounts
 
-### Account Collection [/api/accounts]
+### Account Collection [/v1/api/account]
 
 #### Retrieve All Accounts [GET]
 
@@ -256,7 +263,7 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
           "message": "Error: Error Get Data Account"
         }
         ```
-
+### Account Collection [/v1/api/account/create]
 #### Create a New Account [POST]
 
 + Request (application/json)
@@ -264,7 +271,7 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
         ```json
         {
           "id_customer": 1,
-          "packet": "Basic",
+          "packet": 1,
           "balance": 1500.0,
           "startdate": "2024-01-01"
         }
@@ -287,7 +294,7 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
         }
         ```
 
-### Account Item [/api/accounts/{id}]
+### Account Item [/v1/api/account/{id}/update]
 
 + Parameters
     + id: `1` (number, required) - ID of the account.
@@ -329,7 +336,10 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
           "message": "Account not found"
         }
         ```
+### Account Item [/v1/api/account/{id}/delete]
 
++ Parameters
+    + id: `1` (number, required) - ID of the account.
 #### Delete an Existing Account [DELETE]
 
 + Response 200 (application/json)
@@ -349,7 +359,7 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
         }
         ```
 
-### Account Deposit [/api/accounts/{id}/deposit]
+### Account Deposit [/v1/api/account/{id}/deposit]
 
 + Parameters
     + id: `1` (number, required) - ID of the account.
@@ -390,7 +400,7 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
         }
         ```
 
-### Account Withdraw [/api/accounts/{id}/withdraw]
+### Account Withdraw [/v1/api/account/{id}/withdraw]
 
 + Parameters
     + id: `1` (number, required) - ID of the account.
@@ -401,8 +411,8 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
     + Body
         ```json
         {
-          "balance": 300.0,
-          "withdrawdate": "2024-04-01"
+          "balance": 200.0,
+          "withdrawdate": "2024-03-01"
         }
         ```
 
@@ -411,13 +421,7 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
         ```json
         {
           "message": "PUT account API - WITHDRAW",
-          "data": {
-            "yearly_return": 5,
-            "monthly_return": 0.0041667,
-            "month": 2,
-            "query": { "id": 1, "balance": 1700.0, "startdate": "2024-01-01" },
-            "ending_balance": 150.0
-          }
+          "data": { "id": 1, "balance": 1800.0, "startdate": "2024-03-01" }
         }
         ```
 
@@ -425,7 +429,7 @@ This API allows you to manage customers, deposit types, and accounts in a bank s
     + Body
         ```json
         {
-          "message": "Invalid withdrawal amount"
+          "message": "Invalid withdraw data"
         }
         ```
 
